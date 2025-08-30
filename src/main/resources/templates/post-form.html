@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+
+<div layout:fragment="content">
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h1>Create New Post</h1>
+            <p class="text-muted mb-0">Share your thoughts with the community</p>
+          </div>
+          <a href="/" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-2"></i>
+            Cancel
+          </a>
+        </div>
+
+        <!-- Post Form -->
+        <div class="card">
+          <div class="card-body">
+            <form action="/posts" method="post">
+              <div class="mb-4">
+                <label for="title" class="form-label">
+                  <i class="bi bi-type me-2"></i>
+                  Title *
+                </label>
+                <input type="text"
+                       class="form-control form-control-lg"
+                       id="title"
+                       name="title"
+                       placeholder="Enter an engaging title for your post..."
+                       required>
+                <div class="form-text">Choose a clear, descriptive title that captures your post's main idea.</div>
+              </div>
+
+              <div class="mb-4">
+                <label for="description" class="form-label">
+                  <i class="bi bi-card-text me-2"></i>
+                  Description *
+                </label>
+                <input type="text"
+                       class="form-control"
+                       id="description"
+                       name="description"
+                       placeholder="Brief description of your post..."
+                       required>
+                <div class="form-text">A short summary that will appear in the post preview.</div>
+              </div>
+
+              <div class="mb-4">
+                <label for="content" class="form-label">
+                  <i class="bi bi-file-text me-2"></i>
+                  Content *
+                </label>
+                <textarea class="form-control"
+                          id="content"
+                          name="content"
+                          rows="12"
+                          placeholder="Write your post content here... You can use line breaks to separate paragraphs."
+                          required></textarea>
+                <div class="form-text">Write your full post content. Line breaks will be preserved in the final post.</div>
+              </div>
+
+              <!-- Form Actions -->
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="text-muted">
+                  <small>
+                    <i class="bi bi-info-circle me-1"></i>
+                    All fields marked with * are required
+                  </small>
+                </div>
+                <div class="d-flex gap-2">
+                  <a href="/" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-2"></i>
+                    Cancel
+                  </a>
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Publish Post
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Preview Section -->
+        <div class="card mt-4">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="bi bi-eye me-2"></i>
+              Live Preview
+            </h5>
+          </div>
+          <div class="card-body">
+            <div id="preview-content">
+              <h3 id="preview-title" class="text-muted">Your title will appear here...</h3>
+              <p id="preview-description" class="lead text-muted">Your description will appear here...</p>
+              <hr>
+              <div id="preview-body" class="text-muted">Your content will appear here...</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Live preview functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const titleInput = document.getElementById('title');
+      const descriptionInput = document.getElementById('description');
+      const contentInput = document.getElementById('content');
+
+      const previewTitle = document.getElementById('preview-title');
+      const previewDescription = document.getElementById('preview-description');
+      const previewBody = document.getElementById('preview-body');
+
+      function updatePreview() {
+        previewTitle.textContent = titleInput.value || 'Your title will appear here...';
+        previewDescription.textContent = descriptionInput.value || 'Your description will appear here...';
+        previewBody.textContent = contentInput.value || 'Your content will appear here...';
+
+        // Apply styling based on content
+        previewTitle.className = titleInput.value ? 'h3' : 'h3 text-muted';
+        previewDescription.className = descriptionInput.value ? 'lead' : 'lead text-muted';
+        previewBody.className = contentInput.value ? '' : 'text-muted';
+        previewBody.style.whiteSpace = 'pre-wrap';
+      }
+
+      titleInput.addEventListener('input', updatePreview);
+      descriptionInput.addEventListener('input', updatePreview);
+      contentInput.addEventListener('input', updatePreview);
+
+      // Initial preview update
+      updatePreview();
+    });
+  </script>
+</div>
+
+</html>
